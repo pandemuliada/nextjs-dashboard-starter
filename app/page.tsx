@@ -1,12 +1,11 @@
-import Button from "@/components/ds/Button";
-import Image from "next/image";
+import PageContainer from "@/components/PageContainer";
 
 const HomePage = () => {
   return (
     <main>
-      <div>
-        <Button>Test Sosos</Button>
-      </div>
+      <PageContainer>
+        <h1 className="text-3xl">Bookings</h1>
+      </PageContainer>
     </main>
   );
 };

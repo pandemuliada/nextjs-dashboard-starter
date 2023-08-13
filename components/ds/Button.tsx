@@ -14,7 +14,10 @@ const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref) => {
   const { children } = props;
   const id = useId();
 
-  const className = twMerge("border border-red-500", props.className);
+  const className = twMerge(
+    "border border-red-500 hover:bg-red-500 active:bg-blue-700",
+    props.className,
+  );
 
   return (
     <button {...buttonProps} key={id} className={className} ref={ref}>
