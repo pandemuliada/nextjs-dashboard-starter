@@ -1,6 +1,15 @@
 import PageContainer from "@/components/PageContainer";
+import { supabaseServer } from "@/services/supabase";
+
+const getBookings = async () => {
+  const { data, error } = await supabaseServer.from("bookings").select("*");
+
+  return data;
+};
 
 const HomePage = () => {
+  const bookings = getBookings();
+
   return (
     <main>
       <PageContainer>
