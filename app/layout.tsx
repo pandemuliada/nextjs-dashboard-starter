@@ -18,10 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="max-w-[1600px] mx-auto">
+        <div className="max-w-[1600px] mx-auto flex">
           <SidebarMenu />
 
-          <div className="ml-[250px]">{children}</div>
+          <div className="relative w-full">{children}</div>
         </div>
       </body>
     </html>
