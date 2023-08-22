@@ -1,20 +1,29 @@
+import { BookingsContainer } from "@/app/_containers";
 import PageContainer from "@/components/PageContainer";
 import { supabaseServer } from "@/services/supabase";
 
+const getBookings = async () => {
+  const { data, error } = await supabaseServer
+    .from("bookings")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    return [];
+  }
+  return data;
+};
+
 const HomePage = async () => {
+  const bookings = await getBookings();
+
   return (
     <main>
       <PageContainer>
-        <h1 className="text-3xl">Bookings</h1>
+        <h1 className="text-3xl mb-6">Overview</h1>
 
         <div>
-          {/* {bookings?.map((booking) => (
-            <div key={booking.id}>
-              <p>
-                {booking.title} - {booking.studio.name}
-              </p>
-            </div>
-          ))} */}
+          <BookingsContainer bookings={bookings} />
         </div>
       </PageContainer>
     </main>

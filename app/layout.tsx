@@ -2,6 +2,7 @@ import SidebarMenu from "@/components/SidebarMenu";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Dashboard } from "@/layouts";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="max-w-[1600px] mx-auto flex">
-          <SidebarMenu />
-
-          <div className="relative w-full">{children}</div>
-        </div>
+        <Dashboard>{children}</Dashboard>
       </body>
     </html>
   );

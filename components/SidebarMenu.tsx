@@ -7,9 +7,14 @@ import { twMerge } from "tailwind-merge";
 
 const menus = [
   {
+    name: "Overview",
+    icon: "O",
+    path: "/",
+  },
+  {
     name: "Booking",
     icon: "B",
-    path: "/",
+    path: "/bookings",
   },
   {
     name: "Studio",
@@ -34,7 +39,7 @@ const SidebarMenu = () => {
   return (
     <div
       className={twMerge(
-        "px-5 py-10 border-r w-[250px] sticky top-0 h-screen flex flex-col justify-between",
+        "px-5 py-5 border-r w-[250px] sticky top-0 h-screen flex flex-col justify-between",
         collapsed && "w-[80px]",
       )}
     >
