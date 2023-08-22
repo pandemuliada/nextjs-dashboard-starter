@@ -1,4 +1,4 @@
-interface IBooking {
+export interface IBooking {
   id: number;
   created_at: string;
 }

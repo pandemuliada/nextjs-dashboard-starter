@@ -18,15 +18,13 @@ const HomePage = async () => {
   const bookings = await getBookings();
 
   return (
-    <main>
-      <PageContainer>
-        <h1 className="text-3xl mb-6">Overview</h1>
+    <PageContainer>
+      <h1 className="text-3xl mb-6">Overview</h1>
 
-        <div>
-          <BookingsContainer bookings={bookings} />
-        </div>
-      </PageContainer>
-    </main>
+      <div>
+        <BookingsContainer bookings={bookings} />
+      </div>
+    </PageContainer>
   );
 };
 

@@ -1,5 +1,9 @@
 const PageContainer = ({ children }: { children: React.ReactNode }) => {
-  return <div className="container mx-auto p-5 pt-5">{children}</div>;
+  return (
+    <main>
+      <div className="container mx-auto p-5 pt-5">{children}</div>
+    </main>
+  );
 };
 
 export default PageContainer;
