@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoChevronForward, IoChevronBack, IoLogOut } from "react-icons/io5";
 import { twMerge } from "tailwind-merge";
 
@@ -39,29 +39,31 @@ const SidebarMenu = () => {
   return (
     <div
       className={twMerge(
-        "px-5 py-5 border-r w-[250px] sticky top-0 h-screen flex flex-col justify-between",
-        collapsed && "w-[80px]",
+        "border-t md:border-t-0 z-50 border-r w-full md:max-w-[250px] border-l py-6 px-6 md:h-screen flex md:flex-col justify-between flex-grow-0 fixed bottom-0 md:sticky bg-white bg-opacity-20 backdrop-blur-lg overflow-x-auto no-scrollbar",
+        collapsed && "md:w-[80px]",
       )}
     >
       <div>
-        <div className="flex items-center justify-between mb-8">
+        <div className="items-center justify-between mb-8 hidden md:flex">
           <Link href="/" className="text-2xl font-semibold">
             {collapsed ? "D." : "Dashco."}
           </Link>
         </div>
-        <ul className="text-primary">
+
+        <ul className="text-primary flex md:flex-col max-w-full">
           {menus.map((menu) => (
-            <li key={menu.path} className="mb-3 last:mb-0 relative">
+            <li
+              key={menu.path}
+              className="md:mb-3 mr-6 md:mr-0 last:mb-0 last:mr-0"
+            >
               <Link href={menu.path}>{collapsed ? menu.icon : menu.name}</Link>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="flex flex-col">
-        <div
-          className={twMerge("flex justify-end", collapsed && "justify-center")}
-        >
+      <div className="flex flex-col relative">
+        <div className={twMerge("hidden md:flex justify-end")}>
           <button
             type="button"
             className="text-2xl mb-3"
@@ -73,7 +75,7 @@ const SidebarMenu = () => {
           </button>
         </div>
         <button
-          className="border border-primary flex items-center justify-center p-2"
+          className="hidden border border-primary md:flex items-center justify-center p-2"
           type="button"
         >
           {collapsed ? <IoLogOut /> : "Logout"}

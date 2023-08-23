@@ -1,4 +1,4 @@
-import SidebarMenu from "@/components/SidebarMenu";
+import Menu from "@/components/Menu";
 
 type IDashboardProps = {
   children: React.ReactNode;
@@ -6,10 +6,10 @@ type IDashboardProps = {
 
 const Dashboard = ({ children }: IDashboardProps) => {
   return (
-    <div className="max-w-[1600px] mx-auto flex">
-      <SidebarMenu />
+    <div className="flex max-w-[1600px] mx-auto">
+      <Menu />
 
-      <div className="relative w-full">{children}</div>
+      <div className="w-full pb-24 md:pb-0">{children}</div>
     </div>
   );
 };

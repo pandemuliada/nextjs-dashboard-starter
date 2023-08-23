@@ -23,8 +23,8 @@ const Table = ({ data, columns }: ITableProps) => {
   });
 
   return (
-    <div className="border-l border-r overflow-x-auto">
-      <table className="w-full border-collapse">
+    <div className="border-l border-r max-w-full w-full overflow-x-auto">
+      <table className="border-collapse w-full">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
