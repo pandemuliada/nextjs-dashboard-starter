@@ -49,7 +49,13 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
 
   return (
     <div>
-      <Table columns={columns} data={studios} />
+      <Table
+        columns={columns}
+        data={studios}
+        pagination={{
+          pageSize: 10,
+        }}
+      />
     </div>
   );
 };
