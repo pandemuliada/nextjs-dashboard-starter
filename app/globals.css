@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  @apply text-primary;
-}
-
 /* Hide scrollbar from ui */
 .no-scrollbar {
   overflow-y: scroll;

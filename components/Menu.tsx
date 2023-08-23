@@ -39,7 +39,7 @@ const SidebarMenu = () => {
   return (
     <div
       className={twMerge(
-        "border-t md:border-t-0 z-50 border-r w-full md:max-w-[250px] border-l py-6 px-6 md:h-screen flex md:flex-col justify-between flex-grow-0 fixed bottom-0 md:sticky bg-white bg-opacity-20 backdrop-blur-lg overflow-x-auto no-scrollbar",
+        "border-t md:border-t-0 z-50 border-r w-full md:max-w-[250px] border-l py-6 px-6 md:h-screen flex md:flex-col justify-between flex-grow-0 fixed bottom-0 md:sticky md:top-0 bg-white bg-opacity-20 backdrop-blur-lg overflow-x-auto no-scrollbar",
         collapsed && "md:w-[80px]",
       )}
     >

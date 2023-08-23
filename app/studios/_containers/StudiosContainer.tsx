@@ -13,19 +13,12 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
       minSize: 40,
       maxSize: 40,
       cell(props) {
-        return <div className="">{props.getValue() as string}</div>;
-      },
-      meta: {
-        thClassName: "sticky left-0 bg-white z-[1] text-left px-4",
-        tdClassName: "sticky left-0 bg-white z-[1] text-left px-4",
+        return <div>{props.getValue() as string}</div>;
       },
     },
     {
       header: "Name",
       accessorKey: "name",
-      cell(props) {
-        return <div className="!sticky left-20">{props.row.original.name}</div>;
-      },
     },
     {
       header: "Status",
@@ -34,7 +27,13 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
         return props.row.original.is_active ? "Active" : "Inactive";
       },
     },
-    { header: "Category", accessorKey: "category.name" },
+    {
+      header: "Category",
+      accessorKey: "category.name",
+      cell: ({ row }) => {
+        return <span className="">{row.original.category?.name}</span>;
+      },
+    },
     {
       header: "Created at",
       accessorKey: "created_at",
