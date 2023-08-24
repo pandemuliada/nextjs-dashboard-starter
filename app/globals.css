@@ -13,3 +13,19 @@
   width: 0;
   height: 0;
 }
+
+.table__cell--sticky-left {
+  position: sticky;
+  left: 0;
+  border-right: none;
+}
+
+.table__cell--sticky-left::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  bottom: 0;
+  right: 0;
+
+  @apply border-r;
+}

@@ -10,15 +10,21 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
     {
       header: "ID",
       accessorKey: "id",
-      minSize: 40,
-      maxSize: 40,
+      minSize: 50,
+      maxSize: 50,
       cell(props) {
         return <div>{props.getValue() as string}</div>;
+      },
+      meta: {
+        fixed: "left",
       },
     },
     {
       header: "Name",
       accessorKey: "name",
+      meta: {
+        fixed: "left",
+      },
     },
     {
       header: "Status",
@@ -30,9 +36,9 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
     {
       header: "Category",
       accessorKey: "category.name",
-      cell: ({ row }) => {
-        return <span className="">{row.original.category?.name}</span>;
-      },
+      // cell: ({ row }) => {
+      //   return <span className="">{row.original.category?.name}</span>;
+      // },
     },
     {
       header: "Created at",

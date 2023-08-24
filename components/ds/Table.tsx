@@ -60,18 +60,21 @@ const Table = ({
     <div>
       <div className="border-r border-l border-t max-w-full w-full overflow-x-auto">
         <table className="border-collapse w-full">
-          <thead>
+          <thead className="border-b">
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b">
+              <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <th
                       key={header.id}
                       colSpan={header.colSpan}
                       className={twMerge(
-                        "border-r last:border-r-0 font-medium text-left p-2 px-3 h-full",
-                        header.column.columnDef.meta?.isStickyCell &&
-                          "sticky p-0 left-0 border-r-0 bg-white z-[1]",
+                        "font-medium border-r text-left py-3 px-4 h-full",
+                        [true, "left"].includes(
+                          header.column.columnDef.meta?.fixed as
+                            | boolean
+                            | string,
+                        ) && "bg-white table__cell--sticky-left z-[2]",
                       )}
                       style={{
                         width: header.getSize() || "auto",
@@ -83,8 +86,6 @@ const Table = ({
                         <div
                           className={twMerge(
                             "flex justify-between items-center",
-                            header.column.columnDef.meta?.isStickyCell &&
-                              "border-r p-2 px-3 h-full w-full",
                             header.column.getCanSort() &&
                               "cursor-pointer select-none",
                           )}
@@ -120,9 +121,12 @@ const Table = ({
                       <td
                         key={cell.id}
                         className={twMerge(
-                          "border-r last:border-r-0 p-2 px-3 h-full",
-                          cell.column.columnDef.meta?.isStickyCell &&
-                            "sticky p-0 left-0 border-r-0 bg-white z-[1]",
+                          "relative font-medium border-r text-left py-3 px-4 h-full",
+                          [true, "left"].includes(
+                            cell.column.columnDef.meta?.fixed as
+                              | boolean
+                              | string,
+                          ) && "bg-white table__cell--sticky-left z-[2]",
                         )}
                         style={{
                           width: cell.column.getSize() || "auto",
@@ -130,17 +134,10 @@ const Table = ({
                           minWidth: cell.column.columnDef.minSize || "auto",
                         }}
                       >
-                        <div
-                          className={twMerge(
-                            cell.column.columnDef.meta?.isStickyCell &&
-                              "border-r p-2 px-3 h-full w-full",
-                          )}
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </div>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
                       </td>
                     );
                   })}
