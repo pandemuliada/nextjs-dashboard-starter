@@ -69,7 +69,7 @@ const Table = ({
         )}
       >
         <table className="border-collapse w-full">
-          <thead className="border-b">
+          <thead className={twMerge("border-b", stickyHeader && "border-b-0")}>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -83,6 +83,8 @@ const Table = ({
                       colSpan={header.colSpan}
                       className={twMerge(
                         "font-medium border-r text-left py-3 px-4 h-full",
+                        header.column.getCanSort() &&
+                          "cursor-pointer select-none",
                         isStickyToLeft &&
                           "bg-white table__cell--sticky-left z-[2]",
                         stickyHeader &&
@@ -94,15 +96,13 @@ const Table = ({
                         maxWidth: header.column.columnDef.maxSize || "auto",
                         minWidth: header.column.columnDef.minSize || "auto",
                       }}
+                      onClick={header.column.getToggleSortingHandler()}
                     >
                       {header.isPlaceholder ? null : (
                         <div
                           className={twMerge(
                             "flex justify-between items-center",
-                            header.column.getCanSort() &&
-                              "cursor-pointer select-none",
                           )}
-                          onClick={header.column.getToggleSortingHandler()}
                         >
                           <span>
                             {flexRender(

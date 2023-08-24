@@ -54,6 +54,7 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
     <div>
       <Table
         stickyHeader={true}
+        className="h-[400px]"
         columns={columns}
         data={studios}
         pagination={{
