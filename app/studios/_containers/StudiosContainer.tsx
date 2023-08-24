@@ -36,9 +36,6 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
     {
       header: "Category",
       accessorKey: "category.name",
-      // cell: ({ row }) => {
-      //   return <span className="">{row.original.category?.name}</span>;
-      // },
     },
     {
       header: "Created at",
@@ -56,6 +53,7 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
   return (
     <div>
       <Table
+        stickyHeader={true}
         columns={columns}
         data={studios}
         pagination={{

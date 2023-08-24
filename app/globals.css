@@ -29,3 +29,17 @@
 
   @apply border-r;
 }
+
+.table__cell--sticky-top {
+  position: sticky;
+  top: 0;
+}
+
+.table__cell--sticky-top::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  bottom: 0;
+  @apply border-b;
+}

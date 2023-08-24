@@ -1,5 +1,6 @@
 import { StudiosContainer } from "@/app/studios/_containers";
 import PageContainer from "@/components/PageContainer";
+import Button from "@/components/ds/Button";
 import { IStudio } from "@/interfaces/studio";
 import { supabaseServer } from "@/services/supabase";
 
@@ -21,7 +22,10 @@ const StudiosPage = async () => {
 
   return (
     <PageContainer>
-      <h1 className="text-3xl mb-6">Studios</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl">Studios</h1>
+        <Button>Add Studio</Button>
+      </div>
 
       <div>
         <StudiosContainer studios={studios} />

@@ -27,12 +27,16 @@ type ITableProps = {
   pagination?: {
     pageSize?: number;
   };
+  className?: string;
+  stickyHeader?: boolean;
 };
 
 const Table = ({
   data,
   columns,
   pagination: paginationFromProps,
+  className,
+  stickyHeader = false,
 }: ITableProps) => {
   const [pagination, setPagination] = useState<PaginationState>({
     pageSize: paginationFromProps?.pageSize || 10,
@@ -58,23 +62,32 @@ const Table = ({
 
   return (
     <div>
-      <div className="border-r border-l border-t max-w-full w-full overflow-x-auto">
+      <div
+        className={twMerge(
+          "border-r border-b border-l border-t max-w-full h-full w-full overflow-x-auto",
+          className,
+        )}
+      >
         <table className="border-collapse w-full">
           <thead className="border-b">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                  const isStickyToLeft = [true, "left"].includes(
+                    header.column.columnDef.meta?.fixed as boolean | string,
+                  );
+
                   return (
                     <th
                       key={header.id}
                       colSpan={header.colSpan}
                       className={twMerge(
                         "font-medium border-r text-left py-3 px-4 h-full",
-                        [true, "left"].includes(
-                          header.column.columnDef.meta?.fixed as
-                            | boolean
-                            | string,
-                        ) && "bg-white table__cell--sticky-left z-[2]",
+                        isStickyToLeft &&
+                          "bg-white table__cell--sticky-left z-[2]",
+                        stickyHeader &&
+                          "table__cell--sticky-top z-[2] bg-white",
+                        isStickyToLeft && stickyHeader && "z-[3]",
                       )}
                       style={{
                         width: header.getSize() || "auto",
@@ -115,7 +128,7 @@ const Table = ({
           <tbody>
             {table.getRowModel().rows.map((row) => {
               return (
-                <tr key={row.id} className="border-b">
+                <tr key={row.id}>
                   {row.getVisibleCells().map((cell) => {
                     return (
                       <td
@@ -126,7 +139,7 @@ const Table = ({
                             cell.column.columnDef.meta?.fixed as
                               | boolean
                               | string,
-                          ) && "bg-white table__cell--sticky-left z-[2]",
+                          ) && "bg-white table__cell--sticky-left z-[1]",
                         )}
                         style={{
                           width: cell.column.getSize() || "auto",
