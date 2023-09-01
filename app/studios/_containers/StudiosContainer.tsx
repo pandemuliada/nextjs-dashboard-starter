@@ -8,18 +8,6 @@ import { ColumnDef } from "@tanstack/react-table";
 const StudiosContainer = ({ studios }: { studios: any[] }) => {
   const columns: ColumnDef<IStudio>[] = [
     {
-      header: "ID",
-      accessorKey: "id",
-      minSize: 50,
-      maxSize: 50,
-      cell(props) {
-        return <div>{props.getValue() as string}</div>;
-      },
-      meta: {
-        fixed: "left",
-      },
-    },
-    {
       header: "Name",
       accessorKey: "name",
       meta: {
@@ -54,7 +42,6 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
     <div>
       <Table
         stickyHeader={true}
-        className="h-[400px]"
         columns={columns}
         data={studios}
         pagination={{

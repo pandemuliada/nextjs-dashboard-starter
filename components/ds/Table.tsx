@@ -5,14 +5,13 @@ import {
   OnChangeFn,
   PaginationState,
   SortingState,
-  createColumnHelper,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import {
   IoChevronBackSharp,
@@ -20,6 +19,11 @@ import {
   IoChevronForwardSharp,
   IoChevronUpSharp,
 } from "react-icons/io5";
+import {
+  TbArrowNarrowDown,
+  TbArrowNarrowUp,
+  TbArrowsSort,
+} from "react-icons/tb";
 
 type ITableProps = {
   data: any[];
@@ -29,6 +33,7 @@ type ITableProps = {
   };
   className?: string;
   stickyHeader?: boolean;
+  selectable?: boolean;
 };
 
 const Table = ({
@@ -43,6 +48,21 @@ const Table = ({
     pageIndex: 0,
   });
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  const [isScrolledToRight, setIsScrolledToRight] = useState(false);
+  const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const handleScroll = () => {
+    const container = containerRef.current;
+    if (container) {
+      setIsScrolledToRight(container.scrollLeft > 0);
+    }
+
+    if (container) {
+      setIsScrolledToBottom(container.scrollTop > 0);
+    }
+  };
 
   const table = useReactTable({
     data,
@@ -67,6 +87,8 @@ const Table = ({
           "border-r border-b border-l border-t max-w-full h-full w-full overflow-x-auto",
           className,
         )}
+        onScroll={handleScroll}
+        ref={containerRef}
       >
         <table className="border-collapse w-full">
           <thead className={twMerge("border-b", stickyHeader && "border-b-0")}>
@@ -82,12 +104,13 @@ const Table = ({
                       key={header.id}
                       colSpan={header.colSpan}
                       className={twMerge(
-                        "font-medium border-r text-left py-3 px-4 h-full",
-                        header.column.getCanSort() &&
-                          "cursor-pointer select-none",
-                        isStickyToLeft &&
+                        "font-medium border-b text-left h-full py-2 px-2",
+                        isScrolledToRight &&
+                          isStickyToLeft &&
                           "bg-white table__cell--sticky-left z-[2]",
-                        stickyHeader &&
+
+                        isScrolledToBottom &&
+                          stickyHeader &&
                           "table__cell--sticky-top z-[2] bg-white",
                         isStickyToLeft && stickyHeader && "z-[3]",
                       )}
@@ -96,13 +119,15 @@ const Table = ({
                         maxWidth: header.column.columnDef.maxSize || "auto",
                         minWidth: header.column.columnDef.minSize || "auto",
                       }}
-                      onClick={header.column.getToggleSortingHandler()}
                     >
                       {header.isPlaceholder ? null : (
                         <div
                           className={twMerge(
-                            "flex justify-between items-center",
+                            "flex justify-between items-center w-fit py-1 px-2",
+                            header.column.getCanSort() &&
+                              "cursor-pointer hover:bg-gray-100",
                           )}
+                          onClick={header.column.getToggleSortingHandler()}
                         >
                           <span>
                             {flexRender(
@@ -111,12 +136,16 @@ const Table = ({
                             )}
                           </span>
 
-                          <span className="">
-                            {{
-                              asc: <IoChevronUpSharp />,
-                              desc: <IoChevronDownSharp />,
-                            }[header.column.getIsSorted() as string] ?? null}
-                          </span>
+                          {header.column.getCanSort() && (
+                            <span className={twMerge("ml-2")}>
+                              {{
+                                asc: <TbArrowNarrowUp />,
+                                desc: <TbArrowNarrowDown />,
+                              }[header.column.getIsSorted() as string] ?? (
+                                <TbArrowsSort />
+                              )}
+                            </span>
+                          )}
                         </div>
                       )}
                     </th>
@@ -128,18 +157,20 @@ const Table = ({
           <tbody>
             {table.getRowModel().rows.map((row) => {
               return (
-                <tr key={row.id}>
+                <tr key={row.id} className="border-b">
                   {row.getVisibleCells().map((cell) => {
                     return (
                       <td
                         key={cell.id}
                         className={twMerge(
-                          "relative font-medium border-r text-left py-3 px-4 h-full",
+                          "relative border-r-0 text-left py-3 px-4 h-full",
                           [true, "left"].includes(
                             cell.column.columnDef.meta?.fixed as
                               | boolean
                               | string,
-                          ) && "bg-white table__cell--sticky-left z-[1]",
+                          ) &&
+                            isScrolledToRight &&
+                            "bg-white table__cell--sticky-left z-[1]",
                         )}
                         style={{
                           width: cell.column.getSize() || "auto",
