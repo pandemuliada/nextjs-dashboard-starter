@@ -22,11 +22,6 @@ const StudiosPage = async () => {
 
   return (
     <PageContainer>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl">Studios</h1>
-        <Button>Add Studio</Button>
-      </div>
-
       <div>
         <StudiosContainer studios={studios} />
       </div>
