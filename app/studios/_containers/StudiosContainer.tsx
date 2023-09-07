@@ -54,8 +54,8 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
       <Sheet state={firstSheet.state}>
         <Sheet.Panel
           title="Update Studio"
-          side="bottom"
-          className="h-full md:h-[200px] p-5 overflow-y-auto"
+          side="left"
+          className="w-full md:w-[300px] p-5 overflow-y-auto"
         >
           <Button {...secondSheet.triggerProps} className="mb-5">
             Open Other Panel
@@ -95,7 +95,7 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
         columns={columns}
         data={studios}
         pagination={{
-          pageSize: 100,
+          pageSize: 10,
         }}
       />
     </div>
