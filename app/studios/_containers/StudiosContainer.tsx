@@ -1,5 +1,6 @@
 "use client";
 
+import Dialog from "@/components/Dialog";
 import Sheet from "@/components/Sheet";
 import Button from "@/components/ds/Button";
 import Table from "@/components/ds/Table";
@@ -7,10 +8,11 @@ import { useSheet } from "@/hooks";
 import { IStudio } from "@/interfaces/studio";
 import { formatDate } from "@/utils/date";
 import { ColumnDef } from "@tanstack/react-table";
+import { useOverlayTriggerState } from "react-stately";
 
 const StudiosContainer = ({ studios }: { studios: any[] }) => {
-  const firstSheet = useSheet();
-  const secondSheet = useSheet();
+  const sheetState = useOverlayTriggerState({});
+  const dialogState = useOverlayTriggerState({});
 
   const columns: ColumnDef<IStudio>[] = [
     {
@@ -50,21 +52,21 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
         <h1 className="text-3xl">Studios</h1>
         <Button
           onPress={() => {
-            firstSheet.state.open();
+            sheetState.open();
           }}
         >
           Add Studio
         </Button>
       </div>
 
-      <Sheet state={firstSheet.state}>
+      <Sheet state={sheetState}>
         <Sheet.Panel
           title="Update Studio"
           side="right"
           className="p-5 overflow-y-auto"
         >
-          <Button onPress={() => secondSheet.state.open()} className="mb-5">
-            Open Other Panel
+          <Button onPress={() => dialogState.open()} className="mb-5">
+            Open Dialog
           </Button>
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -80,21 +82,31 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
         </Sheet.Panel>
       </Sheet>
 
-      <Sheet state={secondSheet.state}>
-        <Sheet.Panel className="p-5 overflow-y-auto">
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industrys standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </p>
-        </Sheet.Panel>
-      </Sheet>
+      <Dialog state={dialogState}>
+        <Dialog.Content centered title="Slebew" className="p-5">
+          {[0, 1, 2].map((_, index) => (
+            <p key={index}>
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industrys standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. It was
+              popularised in the 1960s with the release of Letraset sheets
+              containing Lorem Ipsum passages, and more recently with desktop
+              publishing software like Aldus PageMaker including versions of
+              Lorem Ipsum.
+            </p>
+          ))}
+
+          <div className="grid grid-cols-2 gap-5 mt-5">
+            <Button variant="outline" onPress={() => dialogState.close()}>
+              Cancel
+            </Button>
+            <Button>Save</Button>
+          </div>
+        </Dialog.Content>
+      </Dialog>
 
       <Table
         stickyHeader={true}

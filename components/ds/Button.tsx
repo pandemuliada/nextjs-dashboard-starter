@@ -7,16 +7,21 @@ import { twMerge } from "tailwind-merge";
 interface IButtonProps extends AriaButtonProps {
   children: React.ReactNode;
   className?: string;
+  variant?: "filled" | "outline";
 }
 
 const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref) => {
   const { buttonProps } = useButton(props, ref as RefObject<Element>);
-  const { children } = props;
+  const { children, variant = "filled", className: classNameFromProps } = props;
   const id = useId();
 
   const className = twMerge(
-    "border border-primary bg-primary h-[45px] px-5 text-white hover:bg-opacity-90",
-    props.className,
+    "border border-primary h-[45px] px-5",
+    variant === "filled" && "bg-primary text-white",
+    variant === "outline" &&
+      "bg-transparent text-primary hover:bg-primary hover:text-white",
+    props.isDisabled && "cursor-not-allowed",
+    classNameFromProps,
   );
 
   return (
