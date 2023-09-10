@@ -4,7 +4,6 @@ import Dialog from "@/components/Dialog";
 import Sheet from "@/components/Sheet";
 import Button from "@/components/ds/Button";
 import Table from "@/components/ds/Table";
-import { useSheet } from "@/hooks";
 import { IStudio } from "@/interfaces/studio";
 import { formatDate } from "@/utils/date";
 import { ColumnDef } from "@tanstack/react-table";
