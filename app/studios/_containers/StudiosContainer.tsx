@@ -48,16 +48,22 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl">Studios</h1>
-        <Button {...firstSheet.triggerProps}>Add Studio</Button>
+        <Button
+          onPress={() => {
+            firstSheet.state.open();
+          }}
+        >
+          Add Studio
+        </Button>
       </div>
 
       <Sheet state={firstSheet.state}>
         <Sheet.Panel
           title="Update Studio"
-          side="left"
-          className="w-full md:w-[300px] p-5 overflow-y-auto"
+          side="right"
+          className="p-5 overflow-y-auto"
         >
-          <Button {...secondSheet.triggerProps} className="mb-5">
+          <Button onPress={() => secondSheet.state.open()} className="mb-5">
             Open Other Panel
           </Button>
           <p>
@@ -74,7 +80,7 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
         </Sheet.Panel>
       </Sheet>
 
-      <Sheet state={secondSheet.state} isKeyboardDismissDisabled>
+      <Sheet state={secondSheet.state}>
         <Sheet.Panel className="p-5 overflow-y-auto">
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting

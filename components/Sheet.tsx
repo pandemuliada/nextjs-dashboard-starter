@@ -7,6 +7,7 @@ import {
 } from "react-aria";
 import { OverlayTriggerState } from "react-stately";
 import { twMerge } from "tailwind-merge";
+import { motion, AnimatePresence } from "framer-motion";
 
 type ISheetProps = {
   children?: any;
@@ -31,23 +32,25 @@ const Sheet = ({
     ref,
   );
 
-  console.log(isDismissable);
-
-  if (!state.isOpen) {
-    return null;
-  }
-
   return (
-    <Overlay>
-      <div
-        className="fixed inset-0 z-[100] bg-black bg-opacity-20 backdrop-blur-sm"
-        {...underlayProps}
-      >
-        <div {...modalProps} ref={ref}>
-          {cloneElement(children, { id })}
-        </div>
-      </div>
-    </Overlay>
+    <AnimatePresence>
+      {state.isOpen && (
+        <Overlay>
+          <div className="fixed inset-0 z-[100]" {...underlayProps}>
+            <motion.div
+              className="absolute inset-0 bg-black bg-opacity-20 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+
+            <div {...modalProps} ref={ref}>
+              {cloneElement(children, { id, isOpen: state.isOpen })}
+            </div>
+          </div>
+        </Overlay>
+      )}
+    </AnimatePresence>
   );
 };
 
@@ -56,10 +59,45 @@ interface ISheetPanelProps extends AriaDialogProps {
   side?: "top" | "bottom" | "left" | "right";
   className?: string;
   title?: string;
+  isOpen?: boolean;
 }
 
+const panelAnimation = (side: string = "right") => {
+  if (side === "right") {
+    return {
+      initial: { opacity: 0, x: "100%" },
+      animate: { opacity: 1, x: 0 },
+      exit: { opacity: 0, x: "100%" },
+    };
+  }
+
+  if (side === "left") {
+    return {
+      initial: { opacity: 0, x: "-100%" },
+      animate: { opacity: 1, x: 0 },
+      exit: { opacity: 0, x: "-100%" },
+    };
+  }
+
+  if (side === "bottom") {
+    return {
+      initial: { opacity: 0, y: "100%" },
+      animate: { opacity: 1, y: 0 },
+      exit: { opacity: 0, y: "100%" },
+    };
+  }
+
+  if (side === "top") {
+    return {
+      initial: { opacity: 0, y: "-100%" },
+      animate: { opacity: 1, y: 0 },
+      exit: { opacity: 0, y: "-100%" },
+    };
+  }
+};
+
 const Panel = (props: ISheetPanelProps) => {
-  const { side = "right", className, title, children } = props;
+  const { side = "right", className, title, children, isOpen } = props;
   const panelRef = useRef<HTMLDivElement>(null);
   let { dialogProps, titleProps } = useDialog(props, panelRef);
 
@@ -75,14 +113,20 @@ const Panel = (props: ISheetPanelProps) => {
   );
 
   return (
-    <div className={formattedClassName} {...dialogProps} ref={panelRef}>
-      {title && (
-        <h2 className="text-2xl font-medium" {...titleProps}>
-          {title}
-        </h2>
-      )}
+    <div {...dialogProps} ref={panelRef}>
+      <motion.div
+        className={formattedClassName}
+        {...panelAnimation(side)}
+        transition={{ type: "tween" }}
+      >
+        {title && (
+          <h2 className="text-2xl font-medium" {...titleProps}>
+            {title}
+          </h2>
+        )}
 
-      {children}
+        {children}
+      </motion.div>
     </div>
   );
 };
