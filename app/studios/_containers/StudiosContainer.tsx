@@ -1,5 +1,6 @@
 "use client";
 
+import StudioForm from "@/app/studios/_components/forms/StudioForm";
 import Dialog from "@/components/Dialog";
 import Sheet from "@/components/Sheet";
 import Button from "@/components/ds/Button";
@@ -64,10 +65,10 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
           side="right"
           className="p-5 overflow-y-auto"
         >
-          <Button onPress={() => dialogState.open()} className="mb-5">
+          {/* <Button onPress={() => dialogState.open()} className="mb-5">
             Open Dialog
-          </Button>
-          <p>
+          </Button> */}
+          {/* <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industrys standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type
@@ -77,7 +78,12 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
             with the release of Letraset sheets containing Lorem Ipsum passages,
             and more recently with desktop publishing software like Aldus
             PageMaker including versions of Lorem Ipsum.
-          </p>
+          </p> */}
+          <StudioForm
+            onSubmit={(values) => {
+              console.log(values);
+            }}
+          />
         </Sheet.Panel>
       </Sheet>
 

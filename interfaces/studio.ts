@@ -13,15 +13,16 @@ export interface IStudio {
   location: string;
   rate_per_hour: number;
   capacity: number;
-  tags: string;
-  description: string;
-  thumbnail_url: string;
-  status: string;
-  is_active: boolean;
-  floor: string;
   slugs: string;
-  category_id: number;
+  thumbnail_url: string;
+
+  tags?: string;
+  description?: string;
+  status?: string;
+  is_active?: boolean;
+  floor?: string;
+  category_id?: number;
   category?: IStudioCategory;
-  gallery_image_urls: string[];
-  featured_image_urls: string[];
+  gallery_image_urls?: string[];
+  featured_image_urls?: string[];
 }
