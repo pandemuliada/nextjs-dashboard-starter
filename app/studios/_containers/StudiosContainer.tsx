@@ -2,6 +2,7 @@
 
 import StudioForm from "@/app/studios/_components/forms/StudioForm";
 import Dialog from "@/components/Dialog";
+import Popover from "@/components/Popover";
 import Sheet from "@/components/Sheet";
 import Button from "@/components/ds/Button";
 import Table from "@/components/ds/Table";
@@ -112,6 +113,17 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
           </div>
         </Dialog.Content>
       </Dialog>
+
+      <Popover>
+        <Popover.Trigger>
+          <Button variant="outline">Trigger</Button>
+        </Popover.Trigger>
+        <Popover.Content className="p-2 shadow">
+          <p>Something to say</p>
+          <p>Something to say</p>
+          <p>Something to say asdasdas asdasdas </p>
+        </Popover.Content>
+      </Popover>
 
       <Table
         stickyHeader={true}
