@@ -1,9 +1,9 @@
 "use client";
 
 import StudioForm from "@/app/studios/_components/forms/StudioForm";
-import Modal from "@/components/Modal";
-import Popover from "@/components/Popover";
-import Sheet from "@/components/Sheet";
+import Modal from "@/components/ds/Modal";
+import Popover from "@/components/ds/Popover";
+import Sheet from "@/components/ds/Sheet";
 import Button from "@/components/ds/Button";
 import Table from "@/components/ds/Table";
 import { IStudio } from "@/interfaces/studio";
