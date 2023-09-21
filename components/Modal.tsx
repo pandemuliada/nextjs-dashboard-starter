@@ -10,7 +10,7 @@ import { twMerge } from "tailwind-merge";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoClose } from "react-icons/io5";
 
-type IDialogProps = {
+type IModalProps = {
   children?: any;
   isDismissable?: boolean;
   isKeyboardDismissDisabled?: boolean;
@@ -19,13 +19,13 @@ type IDialogProps = {
   [x: string]: any;
 };
 
-const Dialog = ({
+const Modal = ({
   state,
   children,
   isDismissable = true,
   isKeyboardDismissDisabled = false,
   id,
-}: IDialogProps) => {
+}: IModalProps) => {
   let ref = useRef<HTMLDivElement>(null);
   let containerRef = useRef<HTMLDivElement>(null);
   let { modalProps, underlayProps } = useModalOverlay(
@@ -66,7 +66,7 @@ const Dialog = ({
   );
 };
 
-interface IDialogContentProps extends AriaDialogProps {
+interface IModalContentProps extends AriaDialogProps {
   children?: ReactNode;
   className?: string;
   title?: string;
@@ -75,13 +75,13 @@ interface IDialogContentProps extends AriaDialogProps {
   centered?: boolean;
 }
 
-const Content = (props: IDialogContentProps) => {
+const Content = (props: IModalContentProps) => {
   const { className, title, children, state, centered = false } = props;
   const contentRef = useRef<HTMLDivElement>(null);
   let { dialogProps, titleProps } = useDialog(props, contentRef);
 
   const formattedClassName = twMerge(
-    "bg-white max-w-[350px] w-full",
+    "relative bg-white max-w-[350px] w-full",
     className,
   );
 
@@ -127,6 +127,6 @@ const Content = (props: IDialogContentProps) => {
   );
 };
 
-Dialog.Content = Content;
+Modal.Content = Content;
 
-export default Dialog;
+export default Modal;
