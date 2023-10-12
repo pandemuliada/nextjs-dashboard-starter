@@ -1,11 +1,11 @@
-import { ReactNode, cloneElement, useMemo, useRef } from "react";
+import { ReactNode, cloneElement, useMemo, useRef, useState } from "react";
 import {
   AriaDialogProps,
   Overlay,
   useDialog,
   useModalOverlay,
 } from "react-aria";
-import { OverlayTriggerState } from "react-stately";
+import { OverlayTriggerState, useOverlayTriggerState } from "react-stately";
 import { twMerge } from "tailwind-merge";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoClose } from "react-icons/io5";
@@ -73,10 +73,18 @@ interface IModalContentProps extends AriaDialogProps {
   isOpen?: boolean;
   state?: OverlayTriggerState;
   centered?: boolean;
+  noCloseButton?: boolean;
 }
 
 const Content = (props: IModalContentProps) => {
-  const { className, title, children, state, centered = false } = props;
+  const {
+    className,
+    title,
+    children,
+    state,
+    centered = false,
+    noCloseButton = false,
+  } = props;
   const contentRef = useRef<HTMLDivElement>(null);
   let { dialogProps, titleProps } = useDialog(props, contentRef);
 
@@ -112,19 +120,43 @@ const Content = (props: IModalContentProps) => {
             <h2 className="text-2xl font-medium" {...titleProps}>
               {title}
             </h2>
-            <button
-              className="absolute top-5 right-5 text-xl"
-              onClick={() => state?.close()}
-            >
-              <IoClose />
-            </button>
           </>
+        )}
+
+        {!noCloseButton && (
+          <button
+            className="absolute top-5 right-5 text-xl"
+            onClick={() => state?.close()}
+          >
+            <IoClose />
+          </button>
         )}
 
         {children}
       </motion.div>
     </div>
   );
+};
+
+export const useModal = (props: any = {}) => {
+  const state = useOverlayTriggerState(props);
+  const [payload, setPayload] = useState<any>(null);
+
+  const open = (payload: any) => {
+    if (payload) {
+      setPayload(payload);
+      state.open();
+    } else {
+      state.open();
+    }
+  };
+
+  const close = () => {
+    state.close();
+    setPayload(null);
+  };
+
+  return { ...state, open, close, payload, setPayload };
 };
 
 Modal.Content = Content;
