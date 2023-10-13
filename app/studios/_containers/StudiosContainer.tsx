@@ -1,7 +1,7 @@
 "use client";
 
 import StudioForm from "@/app/studios/_components/forms/StudioForm";
-import Modal from "@/components/ds/Modal";
+import Modal, { useModal } from "@/components/ds/Modal";
 import Popover from "@/components/ds/Popover";
 import Sheet from "@/components/ds/Sheet";
 import Button from "@/components/ds/Button";
@@ -9,11 +9,10 @@ import Table from "@/components/ds/Table";
 import { IStudio } from "@/interfaces/studio";
 import { formatDate } from "@/utils/date";
 import { ColumnDef } from "@tanstack/react-table";
-import { useOverlayTriggerState } from "react-stately";
 
 const StudiosContainer = ({ studios }: { studios: any[] }) => {
-  const sheetState = useOverlayTriggerState({});
-  const modalState = useOverlayTriggerState({});
+  const sheetState = useModal();
+  const modalState = useModal();
 
   const columns: ColumnDef<IStudio>[] = [
     {
@@ -100,7 +99,7 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
         </Modal.Content>
       </Modal>
 
-      <Popover>
+      <Popover placement="bottom">
         <Popover.Trigger>
           <Button variant="outline">Trigger</Button>
         </Popover.Trigger>

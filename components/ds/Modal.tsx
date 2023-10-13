@@ -142,7 +142,7 @@ export const useModal = (props: any = {}) => {
   const state = useOverlayTriggerState(props);
   const [payload, setPayload] = useState<any>(null);
 
-  const open = (payload: any) => {
+  const open = (payload?: any) => {
     if (payload) {
       setPayload(payload);
       state.open();
@@ -153,7 +153,9 @@ export const useModal = (props: any = {}) => {
 
   const close = () => {
     state.close();
-    setPayload(null);
+    if (payload) {
+      setPayload(null);
+    }
   };
 
   return { ...state, open, close, payload, setPayload };

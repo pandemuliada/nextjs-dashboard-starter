@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import React, {
   ReactElement,
   ReactNode,
@@ -41,6 +42,46 @@ const PopoverContext = createContext<PopoverContextType>({
   state: null,
   triggerProps: null,
 });
+
+const getContentAnimation = (placement: Placement) => {
+  const placements = placement.split(" ");
+  const isBottom = placements.includes("bottom");
+  const isTop = placements.includes("top");
+  const isLeft = placements.includes("left") || placements.includes("start");
+  const isRight = placements.includes("right") || placements.includes("end");
+
+  if (isBottom) {
+    return {
+      initial: { opacity: 0, y: -2 },
+      animate: { opacity: 1, y: 0 },
+      exit: { opacity: 0, y: -2 },
+    };
+  }
+
+  if (isTop) {
+    return {
+      initial: { opacity: 0, y: 2 },
+      animate: { opacity: 1, y: 0 },
+      exit: { opacity: 0, y: 2 },
+    };
+  }
+
+  if (isLeft) {
+    return {
+      initial: { opacity: 0, x: 2 },
+      animate: { opacity: 1, x: 0 },
+      exit: { opacity: 0, x: 2 },
+    };
+  }
+
+  if (isRight) {
+    return {
+      initial: { opacity: 0, x: -2 },
+      animate: { opacity: 1, x: 0 },
+      exit: { opacity: 0, x: -2 },
+    };
+  }
+};
 
 const usePopoverContext = () => {
   return useContext(PopoverContext);
@@ -131,20 +172,20 @@ const Content = (props: IPopoverContentProps) => {
       popoverRef,
       triggerRef,
       placement: placementFromProps,
-      shouldUpdatePosition: true,
+      // shouldUpdatePosition: true,
       isKeyboardDismissDisabled,
     },
     state as OverlayTriggerState,
   );
 
-  if (!state?.isOpen) return null;
-
   return (
-    <Overlay>
-      <div {...underlayProps} className="fixed inset-0 bg-transparent" />
+    <AnimatePresence>
+      {state?.isOpen && (
+        <Overlay>
+          <div {...underlayProps} className="fixed inset-0 bg-transparent" />
 
-      <div {...popoverProps} ref={popoverRef}>
-        {/* <svg
+          <div {...popoverProps} ref={popoverRef}>
+            {/* <svg
           {...arrowProps}
           className="arrow"
           data-placement={placement}
@@ -152,16 +193,23 @@ const Content = (props: IPopoverContentProps) => {
         >
           <path d="M0 0 L6 6 L12 0" />
         </svg> */}
-        <DismissButton onDismiss={state?.close} />
-        <Dialog
-          {...overlayProps}
-          className={twMerge("bg-white shadow-md", props.className)}
-        >
-          {props.children}
-        </Dialog>
-        <DismissButton onDismiss={state?.close} />
-      </div>
-    </Overlay>
+            <DismissButton onDismiss={state?.close} />
+            <motion.div
+              {...getContentAnimation(placementFromProps as Placement)}
+              transition={{ type: "tween" }}
+            >
+              <Dialog
+                {...overlayProps}
+                className={twMerge("bg-white shadow-md", props.className)}
+              >
+                {props.children}
+              </Dialog>
+            </motion.div>
+            <DismissButton onDismiss={state?.close} />
+          </div>
+        </Overlay>
+      )}
+    </AnimatePresence>
   );
 };
 
