@@ -9,11 +9,15 @@ import Table from "@/components/ds/Table";
 import { IStudio } from "@/interfaces/studio";
 import { formatDate } from "@/utils/date";
 import { ColumnDef } from "@tanstack/react-table";
+import { useToast } from "@/components/ds/Toast";
+import { useState } from "react";
 
 const StudiosContainer = ({ studios }: { studios: any[] }) => {
   const sheetState = useModal();
   const modalState = useModal();
+  const { toast } = useToast();
 
+  const [count, setCount] = useState(0);
   const columns: ColumnDef<IStudio>[] = [
     {
       header: "Name",
@@ -71,7 +75,10 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
 
           <StudioForm
             onSubmit={(values) => {
-              console.log(values);
+              toast({
+                message: JSON.stringify(values),
+                variant: "success",
+              });
             }}
           />
         </Sheet.Panel>
@@ -99,6 +106,17 @@ const StudiosContainer = ({ studios }: { studios: any[] }) => {
         </Modal.Content>
       </Modal>
 
+      <Button
+        onPress={() => {
+          toast({
+            message: `Toast ${count + 1}`,
+            variant: "danger",
+          });
+          setCount((prevCount) => prevCount + 1);
+        }}
+      >
+        Toast
+      </Button>
       <Popover placement="bottom">
         <Popover.Trigger>
           <Button variant="outline">Trigger</Button>
